@@ -13,3 +13,15 @@ exports.index = function(req, res) {
     res.json(200, businesses);
   });
 };
+
+/**
+ * Creates a new business
+ */
+exports.create = function (req, res, next) {
+  var newBusiness = new Business(req.body);
+  var userId = req.params.id;
+  newBusiness.users.push(userId);
+  newBusiness.save(function(err, business) {
+    if (err) return validationError(res, err);
+  });)
+};
