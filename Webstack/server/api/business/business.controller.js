@@ -19,8 +19,6 @@ exports.index = function(req, res) {
  */
 exports.create = function (req, res, next) {
   var newBusiness = new Business(req.body);
-  var userId = req.params.id;
-  newBusiness.users.push(userId);
   newBusiness.save(function(err, business) {
     if (err) return validationError(res, err);
   });)
