@@ -4,7 +4,7 @@ var Business = require('./business.model');
 var User = require('../user/user.model');
 
 /**
- * Get list of businesses
+ * Get list of all businesses
  * restriction: 'admin'
  */
 exports.index = function(req, res) {
@@ -21,5 +21,5 @@ exports.create = function (req, res, next) {
   var newBusiness = new Business(req.body);
   newBusiness.save(function(err, business) {
     if (err) return validationError(res, err);
-  });)
+  });
 };

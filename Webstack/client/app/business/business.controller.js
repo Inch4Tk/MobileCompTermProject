@@ -3,6 +3,7 @@
 angular.module('atTableApp')
   .controller('BusinessCtrl', function ($scope, $http, Auth, User) {
 
+    $scope.newBusinessName = "New Business";
     $scope.businesses = [];
     // Make http request to update businesses
 
@@ -11,8 +12,10 @@ angular.module('atTableApp')
         $scope.businesses = businesses;
       });
     }
+    fetchBusinesses();
 
-    $scope.createBusiness() = function() {
-      $http.post('/api/business', {name: "", locations: [], users: [Auth.currentUser._id]});
+    $scope.createBusiness = function() {
+      $http.post('/api/business', {name: $scope.newBusinessName, locations: [], users: [Auth.getCurrentUser()._id]}).success(fetchBusinesses);
     };
+
   });
