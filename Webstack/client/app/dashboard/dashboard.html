@@ -1,0 +1,50 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+  <!-- Businesses -->
+  <div class="panel-default">
+    <div class="panel-heading clearfix">
+      <h3 class="panel-title pull-left">
+        Businesses
+      </h3>
+      <div class="input-group pull-right">
+        <a href="/createbusiness"><span class="glyphicon glyphicon-plus"></span>Create Business</a>
+        <span class="glyphicon glyphicon-search"></span>
+        <input type="text" ng-model="businessFilter">
+      </div>
+    </div>
+    <div class="panel-body">
+
+    </div>
+  </div>
+  <!-- Locations -->
+  <div class="panel-default">
+    <div class="panel-heading clearfix">
+      <h3 class="panel-title pull-left">
+        Locations
+      </h3>
+      <div class="input-group pull-right">
+        <span class="glyphicon glyphicon-search"></span>
+        <input type="text" ng-model="locationFilter">
+      </div>
+    </div>
+    <div class="panel-body">
+
+    </div>
+  </div>
+  <!-- Users -->
+  <div class="panel-default">
+    <div class="panel-heading clearfix">
+      <h3 class="panel-title pull-left">
+        Users
+      </h3>
+      <div class="input-group pull-right">
+        <span class="glyphicon glyphicon-search"></span>
+        <input type="text" ng-model="userFilter">
+      </div>
+    </div>
+    <div class="panel-body">
+
+    </div>
+  </div>
+</div>
