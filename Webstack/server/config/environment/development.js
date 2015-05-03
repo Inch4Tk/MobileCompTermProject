@@ -7,6 +7,4 @@ module.exports = {
   mongo: {
     uri: 'mongodb://localhost/attable-dev'
   },
-
-  seedDB: true
 };
