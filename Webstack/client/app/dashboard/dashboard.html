@@ -14,7 +14,9 @@
       </div>
     </div>
     <div class="panel-body">
-
+    <ul class="nav nav-pills nav-stacked" ng-repeat="business in businesses">
+      <li><a href="#">{{business.name}} {{business.user}}</a></li>
+    </ul>
     </div>
   </div>
   <!-- Locations -->

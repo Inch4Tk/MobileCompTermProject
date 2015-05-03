@@ -6,5 +6,9 @@ angular.module('atTableApp')
       .when('/business', {
         templateUrl: 'app/business/business.html',
         controller: 'BusinessCtrl'
+      })
+      .when('/createbusiness', {
+        templateUrl: 'app/business/create/create.html',
+        controller: 'BusinessCreateCtrl'
       });
   });
