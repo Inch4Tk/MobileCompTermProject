@@ -1,6 +1,7 @@
 'use strict';
 
 var Business = require('./business.model');
+var Table = require('../table/table.model');
 var User = require('../user/user.model');
 
 /**
@@ -15,11 +16,47 @@ exports.index = function(req, res) {
 };
 
 /**
+ * Get list of businesses from a user
+ */
+exports.mybusiness = function(req, res) {
+  Business.find({user:req.user._id}, function (err, businesses) {
+    if(err) return res.send(500, err);
+    res.json(200, businesses);
+  });
+};
+
+/**
+ * Get info to a specific business
+ */
+exports.show = function (req, res, next) {
+  var businessID = req.params.id;
+
+  Business.findById(businessID, function (err, business) {
+    if (err) return next(err);
+    if (!business) return res.send(401);
+    if (req.user._id !== business.user) return res.send(401);
+    res.json(200, business);
+  });
+};
+
+/**
  * Creates a new business
  */
 exports.create = function (req, res, next) {
+  var tables = req.body.tables;
+  req.body.tables = [];
   var newBusiness = new Business(req.body);
+  
+  for (var i = 0; i < tables.length; i++) {
+    var table = new Table(tables[i]);
+    newBusiness.tables.push(table._id);
+    table.save();
+  }
+  console.log(newBusiness);
   newBusiness.save(function(err, business) {
-    if (err) return validationError(res, err);
+    console.log(err);
+    if (err) return res.send(401);
+    
+    res.json(200, business);
   });
 };
