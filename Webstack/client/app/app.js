@@ -6,6 +6,7 @@ angular.module('atTableApp', [
   'ngSanitize',
   'ngRoute',
   'ui.bootstrap',
+  'btford.socket-io',
   'monospaced.qrcode'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
