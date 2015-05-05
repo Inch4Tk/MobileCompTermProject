@@ -24,6 +24,11 @@ angular.module('atTableApp')
       }
     };
     
+    $scope.trashTable = function(table) {
+      var idx = $scope.tables.indexOf(table);
+      $scope.tables.splice(idx, 1);
+    };
+    
     $scope.createBusiness = function() {
       if ($scope.newBusinessName === '')
         return;

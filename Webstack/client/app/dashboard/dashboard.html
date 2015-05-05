@@ -8,45 +8,15 @@
         Businesses
       </h3>
       <div class="input-group pull-right">
-        <a href="/createbusiness"><span class="glyphicon glyphicon-plus"></span>Create Business</a>
+        <a href="/business/create"><span class="glyphicon glyphicon-plus"></span>Create Business</a>
         <span class="glyphicon glyphicon-search"></span>
         <input type="text" ng-model="businessFilter">
       </div>
     </div>
     <div class="panel-body">
     <ul class="nav nav-pills nav-stacked" ng-repeat="business in businesses">
-      <li><a href="#">{{business.name}} {{business.user}}</a></li>
+      <li><a href="business/detail/{{business._id}}">{{business.name}}</a></li>
     </ul>
-    </div>
-  </div>
-  <!-- Locations -->
-  <div class="panel-default">
-    <div class="panel-heading clearfix">
-      <h3 class="panel-title pull-left">
-        Locations
-      </h3>
-      <div class="input-group pull-right">
-        <span class="glyphicon glyphicon-search"></span>
-        <input type="text" ng-model="locationFilter">
-      </div>
-    </div>
-    <div class="panel-body">
-
-    </div>
-  </div>
-  <!-- Users -->
-  <div class="panel-default">
-    <div class="panel-heading clearfix">
-      <h3 class="panel-title pull-left">
-        Users
-      </h3>
-      <div class="input-group pull-right">
-        <span class="glyphicon glyphicon-search"></span>
-        <input type="text" ng-model="userFilter">
-      </div>
-    </div>
-    <div class="panel-body">
-
     </div>
   </div>
 </div>

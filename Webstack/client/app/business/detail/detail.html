@@ -1,0 +1,36 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container">
+  <!-- List all the business details, menu etc-->
+  <div class="panel-default">
+    <div class="panel-heading clearfix">
+      <h3 class="panel-title pull-left">{{business.name}} {{business._id}}</h3>
+    </div>
+    <div class="panel-body">
+      {{business}}
+      <ul class="nav nav-pills nav-stacked" ng-repeat="table in business.tables">
+        <li>{{table}}</li>
+      </ul>
+    </div>
+  </div>
+  <!-- QR-Codes printing + showing-->
+  <div class="panel-default">
+    <div class="panel-heading clearfix">
+      <h3 class="panel-title pull-left">QR-Codes</h3>
+      <div class="input-group pull-right">
+        <a href="#" class="glyphicon glyphicon-eye-open" ng-click="toggleQR()">Show/Hide</a>
+        <a href="#" class="glyphicon glyphicon-print" ng-print print-element-id="qrcodes">Print</a>
+      </div>
+    </div>
+    <!-- Hide this as long as not explicity asked to show-->
+    <div class="panel-body" ng-show="showQR">
+      <div id="qrcodes">
+        <div class="row" ng-repeat="qrRow in qrData">
+          <div class="col-md-4" ng-repeat="qr in qrRow">
+            {{qr.name}}
+            <qrcode data="{{qr.id}}" size="200" download></qrcode>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
