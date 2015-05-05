@@ -26,17 +26,21 @@ exports.mybusiness = function(req, res) {
 };
 
 /**
- * Get info to a specific business
+ * Get info to a specific business, + all tables attached
  */
 exports.show = function (req, res, next) {
   var businessID = req.params.id;
 
-  Business.findById(businessID, function (err, business) {
+  Business
+  .findById(businessID)
+  .populate('tables')
+  .exec( function (err, business) {
     if (err) return next(err);
-    if (!business) return res.send(401);
-    if (req.user._id !== business.user) return res.send(401);
+    if (!business) return res.send(400);
+    if (!req.user._id.equals(business.user)) return res.send(401);
     res.json(200, business);
   });
+  
 };
 
 /**
@@ -52,11 +56,9 @@ exports.create = function (req, res, next) {
     newBusiness.tables.push(table._id);
     table.save();
   }
-  console.log(newBusiness);
+  
   newBusiness.save(function(err, business) {
-    console.log(err);
-    if (err) return res.send(401);
-    
+    if (err) return res.send(500);
     res.json(200, business);
   });
 };
