@@ -1,0 +1,11 @@
+<!--General purpose printing component-->
+<div id="print">
+</div>
+
+<div class="" id="qrcodes">
+  <div class="row" ng-repeat="qrRow in qrData">
+    <div class="col-md-4" ng-repeat="qr in qrRow">{{qr.name}}
+      <qrcode data="{{qr.id}}" size="200" download></qrcode>
+    </div>
+  </div>
+</div>

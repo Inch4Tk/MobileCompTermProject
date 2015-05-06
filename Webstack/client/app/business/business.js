@@ -13,6 +13,9 @@ angular.module('atTableApp')
       }).when('/business/detail/:id', {
         templateUrl: 'app/business/detail/detail.html',
         controller: 'BusinessDetailCtrl'
+      }).when('business/detail/print/:id', {
+        templateUrl: 'app/business/detail/print.html',
+        controller: 'BusinessDetailCtrl'
       });
       
   });
