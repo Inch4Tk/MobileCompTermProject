@@ -10,11 +10,13 @@ angular.module('atTableApp')
       .when('/business/create', {
         templateUrl: 'app/business/create/create.html',
         controller: 'BusinessCreateCtrl'
-      }).when('/business/detail/:id', {
-        templateUrl: 'app/business/detail/detail.html',
-        controller: 'BusinessDetailCtrl'
-      }).when('business/detail/print/:id', {
+      })
+      .when('/business/detail/:id/print', {
         templateUrl: 'app/business/detail/print.html',
+        controller: 'BusinessDetailPrintCtrl'
+      })
+      .when('/business/detail/:id', {
+        templateUrl: 'app/business/detail/detail.html',
         controller: 'BusinessDetailCtrl'
       });
       

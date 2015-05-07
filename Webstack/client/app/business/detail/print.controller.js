@@ -2,10 +2,9 @@
 'use strict';
 
 angular.module('atTableApp')
-  .controller('BusinessDetailCtrl', function ($scope, $http, $routeParams) {
+  .controller('BusinessDetailPrintCtrl', function ($scope, $http, $routeParams) {
 
     var currentId = $routeParams.id;
-    $scope.business = {};
     $scope.qrData = [];
     $scope.showQR = false;
     
@@ -26,9 +25,5 @@ angular.module('atTableApp')
       $scope.business = business;
       $scope.qrData = formatQRData(business);
     });
-    
-    $scope.toggleQR = function(){
-      $scope.showQR = !$scope.showQR;
-    };
     
   });
