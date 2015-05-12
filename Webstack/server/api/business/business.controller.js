@@ -1,8 +1,14 @@
 'use strict';
 
 var Business = require('./business.model');
+var MenuItemPic = require('./business.menupic.model');
 var Table = require('../table/table.model');
 var User = require('../user/user.model');
+
+// Requires multiparty and filesystem for storing images
+var fs = require('fs');
+var multiparty = require('multiparty');
+
 
 /**
  * Get list of all businesses
@@ -56,9 +62,32 @@ exports.create = function (req, res, next) {
     newBusiness.tables.push(table._id);
     table.save();
   }
-  
+  console.log(newBusiness);
   newBusiness.save(function(err, business) {
     if (err) return res.send(500);
-    res.json(200, business);
+    res.json(201, business);
+  });
+};
+
+// Stores a menu item in the mongo db and then returns the id
+exports.storeMenuItemPic = function(req, res, next) {
+  var form = new multiparty.Form();
+  
+  form.parse(req, function (err, fields, files) {
+    if (err) return res.json(500);
+    
+    // Async read the buffered file from fs
+    fs.readFile(files.file[0].path, function(err, data){
+      fs.unlink(files.file[0].path); // Delete temp file
+      if (err)
+      {
+        return res.json(500);
+      }
+      // Store in mongoose
+      MenuItemPic.create({data:data}, function(err, pic){
+        if(err) { return res.json(500); }
+        return res.json(201, pic._id);
+      });
+    });
   });
 };

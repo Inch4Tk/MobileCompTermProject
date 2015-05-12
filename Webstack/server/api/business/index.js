@@ -13,5 +13,6 @@ router.get('/mybusiness', auth.isAuthenticated(), controller.mybusiness);
 // router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', auth.isAuthenticated(), controller.create);
+router.post('/mipic', auth.isAuthenticated(), controller.storeMenuItemPic);
 
 module.exports = router;

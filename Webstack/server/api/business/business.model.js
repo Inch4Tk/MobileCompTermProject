@@ -3,11 +3,10 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-
 var MenuItemSchema = new Schema({
   name: String,
   price: Number,
-  picture: Buffer,
+  picture: {type:Schema.Types.ObjectId, ref:'MenuPicture'},
   description: String
 });
 
