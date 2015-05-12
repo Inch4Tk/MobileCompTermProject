@@ -37,3 +37,16 @@
     color: #000;
     padding: 0.2em 0;
 }
+
+/*Styles for filedrop*/
+.drop-box {
+    background: #F8F8F8;
+    border: 5px dashed #DDD;
+    width: 160px;
+    height: 160px;
+    text-align: center;
+    padding: 10px;
+}
+.dragover {
+    border: 5px dashed blue;
+}
