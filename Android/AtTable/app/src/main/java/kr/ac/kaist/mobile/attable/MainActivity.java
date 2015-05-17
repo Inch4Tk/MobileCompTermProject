@@ -54,7 +54,6 @@ public class MainActivity extends ActionBarActivity {
         scanView.setText(barcodeId);
 
 
-
         startScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +68,17 @@ public class MainActivity extends ActionBarActivity {
                 //finish();
             }
         });
+
+        chooseOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent listMenu = new Intent(MainActivity.this, ParseMenuItems.class);
+                startActivity(listMenu);
+            }
+        });
     }
+
+
 
 
 
@@ -107,14 +116,10 @@ public class MainActivity extends ActionBarActivity {
             String jsonResponse = service.makeServiceCall(url, GET, params);
             */
 
-            String jsonResponse = "[ {'name': 'takgalbi','price': '1', 'picture': 'some pic', 'description': 'nice takgalbi' },"  +
-                    "{'name': 'takgalbi2','price': '2', 'picture': 'some pic2', 'description': 'nice takgalbi2' }]";
+            //String jsonResponse = "[ {'name': 'takgalbi','price': '1', 'picture': 'some pic', 'description': 'nice takgalbi' },"  +
+            //        "{'name': 'takgalbi2','price': '2', 'picture': 'some pic2', 'description': 'nice takgalbi2' }]";
 
             //ParseMenuItems menu = new ParseMenuItems();
-
-            Intent listMenu = new Intent(this,ParseMenuItems.class);
-            startActivity(listMenu);
-
 
 
         }

@@ -7,7 +7,7 @@
         android:layout_width="0dp"
         android:layout_height="108dp"
         android:text="Order More"
-        android:id="@+id/button2"
+        android:id="@+id/order_more"
         android:layout_gravity="bottom"
         android:layout_weight="1" />
 </LinearLayout>
