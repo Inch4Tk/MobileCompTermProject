@@ -10,12 +10,11 @@ var router = express.Router();
 // Gets
 router.get('/business/:id/active', auth.isAuthenticated(), controller.listActiveBusinessOrders);
 router.get('/business/:id/all', auth.isAuthenticated(), controller.listAllBusinessOrders);
+router.get('/table/:id', controller.showOrderTable);
 router.get('/:id', controller.showOrder);
 
-// Post requests are for the android part because is doesnt know what to update
+// Creation
 router.post('/:id', controller.create);
-
-
-// Put requests are for the website
+router.post('/:id/status', auth.isAuthenticated(), controller.updateStatus);
 
 module.exports = router;

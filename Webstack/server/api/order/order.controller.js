@@ -1,14 +1,13 @@
 'use strict';
 
-var Business = require('./business.model');
-var MenuItemPic = require('./business.menupic.model');
+var Business = require('../business/business.model');
 var Order = require('./order.model');
 var Table = require('../table/table.model');
 var User = require('../user/user.model');
 
 
 /**
- * Get list of all orders that are active of a business
+ * Get list of all orders of a business
  */
 exports.listAllBusinessOrders = function(req, res, next) {
   // User check
@@ -26,7 +25,7 @@ exports.listAllBusinessOrders = function(req, res, next) {
 
 
 /**
- * Get list of all orders that are active of a business
+ * Get list of all orders of a business that are active 
  */
 exports.listActiveBusinessOrders = function(req, res, next) {
   // User check
@@ -35,10 +34,12 @@ exports.listActiveBusinessOrders = function(req, res, next) {
     if (!business) return res.send(400);
     if (!req.user._id.equals(business.user)) return res.send(401);
     // Passed existence checks, find orders
-    Order.find({finished: false, business: req.params.id}, function (err, orders) {
-      if(err) return res.send(500, err);
-      res.json(200, orders);
-    });
+    Order.find({business: req.params.id})
+      .where('staus').lt(2)
+      .exec(function (err, orders) {
+        if(err) return res.send(500, err);
+        res.json(200, orders);
+      });
   });
 };
 
@@ -53,3 +54,70 @@ exports.showOrder = function(req, res, next) {
   });
 };
 
+/**
+ * Get current orders by table id
+ */
+exports.showOrderTable = function(req, res, next) {
+  Order.find({table: req.params.id})
+    .where('status').lt(2)
+    .exec(function(err, orders){
+      if(err) return res.send(500, err);
+      res.json(200, orders);
+    });
+};
+
+/**
+ * Create order associated with table id
+ */
+exports.create = function (req, res, next) {
+  // Query for table
+  Table.findById(req.params.id, function (err, t) {
+    if (err) return res.send(500, err);
+    // Query for business via table
+    Business.findById(t.owner, function (err, b) {
+      if (err) return res.send(500, err);
+      
+      // Create the itemlist
+      var ilist = [];
+      for (var i=0; i < req.body.items.length; ++i)
+      {
+        for (var j=0; b.menu.length; ++j)
+        {
+          // Check if name is the same as in menu, then add it to the ilist
+          if (req.body.items.name[i] == b.menu[j])
+          {
+            ilist.push(
+              {name: b.menu[j].name, 
+              price: b.menu[j].price, 
+              amount: req.body.items.amount[i]});
+          }
+        }
+      }
+      
+      // Create a new order
+      var order = {
+        status: 0,
+        business: b._id,
+        table: req.params.id,
+        items: ilist
+      };
+      Order.create(order, function (err, order) {
+        if (err) { return res.send(500, err); }
+        return res.json(201, order);
+      });
+    });
+  });
+};
+
+/**
+ * Update the status of an order
+ */
+exports.updateStatus = function (req, res, next) {
+  Order.findOneAndUpdate({_id: req.params.id}, 
+    {status: req.body.status}, 
+    {new: true},
+    function (err, order) {
+        if (err) { return res.send(500, err); }
+        return res.json(201, order);
+      });
+};
