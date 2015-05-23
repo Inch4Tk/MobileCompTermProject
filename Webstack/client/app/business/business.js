@@ -18,6 +18,10 @@ angular.module('atTableApp')
       .when('/business/detail/:id', {
         templateUrl: 'app/business/detail/detail.html',
         controller: 'BusinessDetailCtrl'
+      })
+      .when('/business/orders/:id', {
+        templateUrl: 'app/business/orders/orders.html',
+        controller: 'BusinessOrdersCtrl'
       });
       
   });
