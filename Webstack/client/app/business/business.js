@@ -19,9 +19,12 @@ angular.module('atTableApp')
         templateUrl: 'app/business/detail/detail.html',
         controller: 'BusinessDetailCtrl'
       })
+      .when('/business/orders/place', {
+        templateUrl: 'app/business/orders/place.html',
+        controller: 'BusinessOrdersPlaceCtrl'
+      })
       .when('/business/orders/:id', {
         templateUrl: 'app/business/orders/orders.html',
         controller: 'BusinessOrdersCtrl'
       });
-      
   });

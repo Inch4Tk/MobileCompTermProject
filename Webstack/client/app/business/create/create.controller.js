@@ -79,6 +79,27 @@ angular.module('atTableApp')
     };
     
     // Submit the business for creation to server
+    function createBusiness() {
+      // Overwrite every menu item with its id
+      for (var i = 0; i < $scope.menu.length; i++) {
+        if ($scope.pictureIds[i])
+          $scope.menu[i].picture = $scope.pictureIds[i];
+        else
+          $scope.menu[i].picture = null;
+      }
+      // Create the business and upload it  
+      var newBusiness = {
+        name: $scope.newBusinessName,
+        user: Auth.getCurrentUser()._id,
+        tables: $scope.tables,
+        menu: $scope.menu
+      };
+      console.log(newBusiness);
+      $http.post('/api/business', newBusiness).success(function () {
+        $location.path('/dashboard');
+      });
+    }
+    
     // Progress handler factory
     function make_progressHandler(i) {
       return function (evt) {
@@ -94,25 +115,8 @@ angular.module('atTableApp')
         
         // Check if this is the last file to finish
         if ($scope.finishedFiles == $scope.toUpload) {   
-          // Overwrite every menu item with its id
-          for (var i = 0; i < $scope.menu.length; i++) {
-            if ($scope.pictureIds[i])
-              $scope.menu[i].picture = $scope.pictureIds[i];
-            else
-              $scope.menu[i].picture = null;
-          }
-          
-          // Create the business and upload it  
-          var newBusiness = {
-            name: $scope.newBusinessName,
-            user: Auth.getCurrentUser()._id,
-            tables: $scope.tables,
-            menu: $scope.menu
-          };
-          console.log(newBusiness);
-          $http.post('/api/business', newBusiness).success(function () {
-            $location.path('/dashboard');
-          });
+          // Call business creation function after last pic is handled
+          createBusiness();
         }
       };
     }
@@ -140,7 +144,10 @@ angular.module('atTableApp')
         })
         .progress(make_progressHandler(i))
         .success(make_successHandler(i));
-      }  
+      }
+      // If no pictures were uploaded, the business was not submitted
+      if ($scope.toUpload == 0)
+        createBusiness();
     };
 
   });

@@ -1,0 +1,12 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+  <div ng-repeat="table in business.tables">
+    <div class="col-md-4">
+      <h3>{{table.name}}</h3>
+      <ul class="list-group" ng-repeat="order in orders">
+        <li class="list-group-item">{{order}}</li>
+      </ul>
+    </div>
+  </div>
+</div>

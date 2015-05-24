@@ -1,0 +1,31 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+  
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <input class="form-control" type="text" placeholder="Table ID" ng-model="tableId" />
+    </div>
+    <input class="btn btn-default" type="button" value="Fetch Menu" ng-click="fetchMenu()" />
+  </div>
+  <div ng-show="showPlace">
+    <div class="row">
+      <div class="col-md-6">
+        <ul class="list-group" ng-repeat="menuI in menu">
+          <li class="list-group-item clearfix">
+            <div class="col-md-8">
+              <p>Name: {{menuI.name}}
+                <br/>Description: {{menuI.description}}
+                <br/>Price: {{menuI.price | currency:"&#8361;"}}</p>
+            </div>
+            <div class="col-md-3">
+              <input type="number" class="form-control" ng-model="menuI.amount" />
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <input class="btn btn-success" type="button" value="Submit Order" ng-click="submitOrder()" />
+    </div>
+  </div>
+</div>

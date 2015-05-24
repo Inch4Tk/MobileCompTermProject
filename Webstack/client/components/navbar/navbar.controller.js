@@ -17,6 +17,13 @@ angular.module('atTableApp')
       'needAdmin': false,
     },
     {
+      'title': 'Place Order (Debug)',
+      'link': '/business/orders/place',
+      'showLogout': false,
+      'showLogin': true,
+      'needAdmin': false,
+    },
+    {
       'title': 'Admin',
       'link': '/admin',
       'showLogout': false,
