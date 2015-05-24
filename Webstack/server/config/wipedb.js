@@ -8,6 +8,7 @@
 
 var Business = require('../api/business/business.model');
 var MenuPic = require('../api/business/business.menupic.model');
+var Order = require('../api/order/order.model');
 var Thing = require('../api/thing/thing.model');
 var Table = require('../api/table/table.model');
 var User = require('../api/user/user.model');
@@ -25,6 +26,9 @@ Thing.find({}).remove(function() {
 });
 
 MenuPic.find({}).remove(function() {
+});
+
+Order.find({}).remove(function() {
 });
 
 User.find({}).remove(function() {

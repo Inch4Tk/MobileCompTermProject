@@ -1,7 +1,7 @@
 'use strict';
 
-var Business = require('../business/business.model');
 var Order = require('./order.model');
+var Business = require('../business/business.model');
 var Table = require('../table/table.model');
 var User = require('../user/user.model');
 
@@ -25,7 +25,7 @@ exports.listAllBusinessOrders = function(req, res, next) {
 
 
 /**
- * Get list of all orders of a business that are active 
+ * Get list of all orders of a business that are active (not paid)
  */
 exports.listActiveBusinessOrders = function(req, res, next) {
   // User check
@@ -35,7 +35,7 @@ exports.listActiveBusinessOrders = function(req, res, next) {
     if (!req.user._id.equals(business.user)) return res.send(401);
     // Passed existence checks, find orders
     Order.find({business: req.params.id})
-      .where('staus').lt(2)
+      .where('staus').lt(3)
       .exec(function (err, orders) {
         if(err) return res.send(500, err);
         res.json(200, orders);
@@ -55,11 +55,11 @@ exports.showOrder = function(req, res, next) {
 };
 
 /**
- * Get current orders by table id
+ * Get current (unpaid) orders by table id
  */
 exports.showOrderTable = function(req, res, next) {
   Order.find({table: req.params.id})
-    .where('status').lt(2)
+    .where('status').lt(3)
     .exec(function(err, orders){
       if(err) return res.send(500, err);
       res.json(200, orders);
@@ -84,12 +84,12 @@ exports.create = function (req, res, next) {
         for (var j=0; b.menu.length; ++j)
         {
           // Check if name is the same as in menu, then add it to the ilist
-          if (req.body.items.name[i] == b.menu[j])
+          if (req.body.items[i].name == b.menu[j])
           {
             ilist.push(
               {name: b.menu[j].name, 
               price: b.menu[j].price, 
-              amount: req.body.items.amount[i]});
+              amount: req.body.items[i].amount});
           }
         }
       }

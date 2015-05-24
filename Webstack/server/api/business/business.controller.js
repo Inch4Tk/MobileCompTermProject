@@ -59,6 +59,7 @@ exports.create = function (req, res, next) {
   
   for (var i = 0; i < tables.length; i++) {
     var table = new Table(tables[i]);
+    table.owner = newBusiness._id;
     newBusiness.tables.push(table._id);
     table.save();
   }
@@ -69,7 +70,9 @@ exports.create = function (req, res, next) {
   });
 };
 
-// Stores a menu item in the mongo db and then returns the id
+/**
+ * Stores a menu item in the mongo db and then returns the id
+ */
 exports.storeMenuItemPic = function(req, res, next) {
   var form = new multiparty.Form();
   
@@ -79,8 +82,7 @@ exports.storeMenuItemPic = function(req, res, next) {
     // Async read the buffered file from fs
     fs.readFile(files.file[0].path, function(err, data){
       fs.unlink(files.file[0].path); // Delete temp file
-      if (err)
-      {
+      if (err) {
         return res.json(500);
       }
       // Store in mongoose
@@ -88,6 +90,23 @@ exports.storeMenuItemPic = function(req, res, next) {
         if(err) { return res.json(500); }
         return res.json(201, pic._id);
       });
+    });
+  });
+};
+
+/**
+ * Gets the menu of the correct business via the tableid
+ */
+exports.getMenu = function(req, res, next) {
+  var tableId = req.params.id
+  // First resolve the table
+  Table.findById(tableId, function(err, table){
+    if(err) { return res.json(500); }
+    // Now resolve the business over the table
+    Business.findById(table.owner, function(err, business){
+      if(err) { return res.json(500); }
+      // Return the menu
+      return res.json(201, business.menu);
     });
   });
 };
