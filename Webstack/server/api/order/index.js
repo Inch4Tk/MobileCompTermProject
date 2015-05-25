@@ -14,7 +14,7 @@ router.get('/table/:id', controller.showOrderTable);
 router.get('/:id', controller.showOrder);
 
 // Creation
-router.post('/:id', controller.create);
 router.post('/:id/status', auth.isAuthenticated(), controller.updateStatus);
+router.post('/:id', controller.create);
 
 module.exports = router;

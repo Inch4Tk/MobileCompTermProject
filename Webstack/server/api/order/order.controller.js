@@ -35,7 +35,7 @@ exports.listActiveBusinessOrders = function(req, res, next) {
     if (!req.user._id.equals(business.user)) return res.send(401);
     // Passed existence checks, find orders
     Order.find({business: req.params.id})
-      .where('staus').lt(3)
+      .where('status').lt(3)
       .exec(function (err, orders) {
         if(err) return res.send(500, err);
         res.json(200, orders);
