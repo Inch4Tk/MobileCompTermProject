@@ -119,11 +119,12 @@ exports.create = function (req, res, next) {
  * Update the status of an order
  */
 exports.updateStatus = function (req, res, next) {
-  Order.findOneAndUpdate({_id: req.params.id}, 
-    {status: req.body.status}, 
-    {new: true},
-    function (err, order) {
-        if (err) { return res.send(500, err); }
-        return res.json(201, order);
-      });
+  Order.findOne({_id: req.params.id}, function(err, order) {
+    if (err) { return res.send(500, err); }
+    order.status = req.body.status;
+    order.save(function(err, order){
+      if (err) { return res.send(500, err); }
+      return res.json(201, order);
+    });
+  });
 };

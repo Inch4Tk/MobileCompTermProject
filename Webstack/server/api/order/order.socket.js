@@ -7,10 +7,7 @@
 var order = require('./order.model');
 
 exports.register = function(socket) {
-  order.schema.post('create', function (doc) {
-    onSave(socket, doc);
-  });
-  order.schema.post('findOneAndUpdate', function (doc) {
+  order.schema.post('save', function (doc) {
     onSave(socket, doc);
   });
 };
