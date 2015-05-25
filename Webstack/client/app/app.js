@@ -8,7 +8,8 @@ angular.module('atTableApp', [
   'ui.bootstrap',
   'btford.socket-io',
   'monospaced.qrcode',
-  'ngFileUpload'
+  'ngFileUpload',
+  'atTableFilters'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider

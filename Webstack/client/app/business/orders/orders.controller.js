@@ -6,7 +6,7 @@ angular.module('atTableApp')
     var currentId = $routeParams.id;
     $scope.business = {};
     $scope.orders = [];
-    
+       
     // TODO: Should put this to factory
     $http.get('/api/business/' + currentId).success(function (business) {
       $scope.business = business;
@@ -18,8 +18,18 @@ angular.module('atTableApp')
       socket.syncUpdates('order', $scope.orders);
     });
 
-
     $scope.$on('$destroy', function () {
       socket.unsyncUpdates('order');
     });
+    
+    // Increment an order status
+    $scope.incStatus = function(order){
+      if (order.status < 2)
+        order.status += 1;
+    };
+    
+    // Pays all orders of a table
+    $scope.payOrders = function(table){
+      
+    };
 });
