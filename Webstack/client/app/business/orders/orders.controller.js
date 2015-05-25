@@ -22,6 +22,20 @@ angular.module('atTableApp')
       socket.unsyncUpdates('order');
     });
     
+    // Gets the bill amount for a table
+    $scope.getBill = function(table) {
+      var amt = 0;
+      for (var i=0; i < $scope.orders.length; ++i){
+        var order = $scope.orders[i];
+        if (order.table == table._id && order.status < 3)
+        {
+          for (var j=0; j < order.items.length; ++j)
+          amt += order.items[i].amount * order.items[i].price;
+        }
+      }
+      return amt;
+    };
+    
     // Filter: Check the status of an order
     $scope.checkStatus = function(){
       return function(order) {return order.status < 3; };
@@ -32,8 +46,7 @@ angular.module('atTableApp')
       if (order.status < 2){
         var newStatus = order.status + 1;
         $http.post('/api/order/' + order._id + '/status', {status: newStatus});
-      }
-      
+      }     
     };
     
     // Pays all orders of a table (Also sets their state to delivered)
