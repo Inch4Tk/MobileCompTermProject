@@ -22,14 +22,29 @@ angular.module('atTableApp')
       socket.unsyncUpdates('order');
     });
     
-    // Increment an order status
-    $scope.incStatus = function(order){
-      if (order.status < 2)
-        order.status += 1;
+    // Filter: Check the status of an order
+    $scope.checkStatus = function(){
+      return function(order) {return order.status < 3; };
     };
     
-    // Pays all orders of a table
-    $scope.payOrders = function(table){
+    // Increment an order status
+    $scope.incStatus = function(order){
+      if (order.status < 2){
+        var newStatus = order.status + 1;
+        $http.post('/api/order/' + order._id + '/status', {status: newStatus});
+      }
       
+    };
+    
+    // Pays all orders of a table (Also sets their state to delivered)
+    $scope.payOrders = function(table){
+      for (var i=0; i < $scope.orders.length; ++i){
+        var order = $scope.orders[i];
+        if (order.table == table._id)
+        {
+          var newStatus = 3;
+          $http.post('/api/order/' + order._id + '/status', {status: newStatus});
+        }
+      }
     };
 });

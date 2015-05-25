@@ -1,26 +1,33 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
-
+  
 <div class="container">
   <div ng-repeat="table in business.tables">
+    <div class="row" ng-show="$index % 3 == 0"></div>
     <div class="col-md-4">
+<!--      One group of orders from a table-->
       <h3>{{table.name}}</h3>
-      <ul class="list-group" ng-repeat="order in orders | filter:table._id | orderBy:order.status">
+      <ul class="list-group">
         <li class="list-group-item">
           <a href="#" ng-click="payOrders(table)"><span class="glyphicon glyphicon-shopping-cart"></span> Pay Orders</a>
         </li>
-        <li class="list-group-item" ng-class="{'list-group-item-info': order.status==0}">
-          <p>
-            <strong>Order time:</strong> {{order.timestamp | date:'HH:mm:ss MM/dd'}}<br/>
-            <a ng-hide="order.status > 1" href="#" ng-click="incStatus(order)"><span style="font-size:3.5em;" class="glyphicon glyphicon-play pull-right"></span></a>
-            <strong>Order status:</strong> {{order.status | rewrite:['New', 'Processing', 'Delivered', 'Paid']}}<br/>
-            <strong>Items:</strong><br/>
-            <ul ng-repeat="item in order.items">
-              <li>
-                {{item.name}}: {{item.amount}}
-              </li>
-            </ul>
-          </p>
-        </li>
+<!--        Orders-->
+        <div ng-repeat="order in orders | filter:table._id | filter:checkStatus() | orderBy:'status'">
+          <li class="list-group-item" ng-class="{'list-group-item-info': order.status==0}">
+            <p>
+              <strong>Order time:</strong>{{order.timestamp | date:'HH:mm:ss MM/dd'}}
+              <br/>
+              <a ng-hide="order.status > 1" href="#" ng-click="incStatus(order)"><span style="font-size:3.5em;" class="glyphicon glyphicon-play pull-right"></span></a>
+              <strong>Order status:</strong>{{order.status | rewrite:['New', 'Processing', 'Delivered', 'Paid']}}
+              <br/>
+              <strong>Items:</strong>
+              <br/>
+              <ul ng-repeat="item in order.items">
+                <li>{{item.name}}: {{item.amount}}</li>
+              </ul>
+            </p>
+          </li>
+        </div>
+<!--        Orders done-->
       </ul>
     </div>
   </div>
