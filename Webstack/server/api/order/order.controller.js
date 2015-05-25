@@ -73,6 +73,7 @@ exports.create = function (req, res, next) {
   // Query for table
   Table.findById(req.params.id, function (err, t) {
     if (err) return res.send(500, err);
+    
     // Query for business via table
     Business.findById(t.owner, function (err, b) {
       if (err) return res.send(500, err);
@@ -81,10 +82,10 @@ exports.create = function (req, res, next) {
       var ilist = [];
       for (var i=0; i < req.body.items.length; ++i)
       {
-        for (var j=0; b.menu.length; ++j)
+        for (var j=0; j < b.menu.length; ++j)
         {
           // Check if name is the same as in menu, then add it to the ilist
-          if (req.body.items[i].name == b.menu[j])
+          if (req.body.items[i].name == b.menu[j].name)
           {
             ilist.push(
               {name: b.menu[j].name, 
@@ -94,6 +95,10 @@ exports.create = function (req, res, next) {
         }
       }
       
+      // Check if theres any items requests that match the menu
+      if (ilist.length == 0)
+        return res.send(500, err);
+        
       // Create a new order
       var order = {
         status: 0,
@@ -101,6 +106,7 @@ exports.create = function (req, res, next) {
         table: req.params.id,
         items: ilist
       };
+
       Order.create(order, function (err, order) {
         if (err) { return res.send(500, err); }
         return res.json(201, order);
