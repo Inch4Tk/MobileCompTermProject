@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="kr.ac.kaist.mobile.attable" >
 
-
     <!-- Internet permission -->
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -20,7 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".OrderSelect"
+            android:label="@string/title_activity_order_select" >
+        </activity>
     </application>
-
 
 </manifest>
