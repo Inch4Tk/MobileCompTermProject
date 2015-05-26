@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">AtTable</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">\@Table</string>
     <string name="action_settings">Settings</string>
-    <string name="scan_button">Scan!</string>
-    <string name="barcode_id"></string>
+    <string name="scan_button">Scan QRCode!</string>
+    <string name="title_activity_order_select">OrderSelect</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

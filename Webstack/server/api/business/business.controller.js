@@ -110,3 +110,20 @@ exports.getMenu = function(req, res, next) {
     });
   });
 };
+
+/**
+ * Gets the menu of the correct business via the tableid with picture
+ */
+exports.getMenuWPicture = function(req, res, next) {
+  var tableId = req.params.id
+  // First resolve the table
+  Table.findById(tableId, function(err, table){
+    if(err) { return res.json(500); }
+    // Now resolve the business over the table
+    Business.findById(table.owner).populate('picture').exec(function(err, business){
+      if(err) { return res.json(500); }
+      // Return the menu
+      return res.json(201, business.menu);
+    });
+  });
+};
