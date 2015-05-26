@@ -1,45 +1,30 @@
 package kr.ac.kaist.mobile.attable;
 
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
-import android.support.v7.app.ActionBarActivity;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Pair;
-import android.view.KeyEvent;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
-import org.apache.http.NameValuePair;
-
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.util.List;
-import java.util.ArrayList;
+
+import kr.ac.kaist.mobile.attable.api.ApiMenuItem;
+import kr.ac.kaist.mobile.attable.shared.SharedStorage;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    //Button startButton;
-    TextView scanView;
     Button startScan;
-    Button chooseOrder;
-    static String barcodeId = "hi";
-
-    public final String barcodeParamName = "barcodeID";
-    public final static int GET = 1;
-    public final static int POST = 2;
-    public final String url = "dummyGetURL";
-    ///////////////////////
 
     ///////////////////////
     @Override
@@ -47,12 +32,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //startButton = (Button) findViewById(R.id.startbtn);
         startScan = (Button) findViewById(R.id.buttonscn);
-        scanView = (TextView) findViewById(R.id.scanview);
-        chooseOrder = (Button) findViewById(R.id.orderchoice);
-        scanView.setText(barcodeId);
-
 
         startScan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,13 +42,12 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-//        chooseOrder.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent listMenu = new Intent(MainActivity.this, ParseMenuItems.class);
-//                startActivity(listMenu);
-//            }
-//        });
+        // Execute emulator only startup code
+        if(Build.FINGERPRINT.startsWith("generic"))
+        {
+            // Fake a scan, because we can't do anything else on emulator anyways
+            HandleScanResult("5561cd3c85676ad4231e959d");
+        }
     }
 
     @Override
@@ -93,24 +72,34 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null) {
-            barcodeId = scanResult.getContents();
-            scanView.setText(barcodeId);
+            String tableId = scanResult.getContents();
+            Log.i("App", tableId);
 
-            /*List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair(barcodeParamName, barcodeId));
-            ServiceHandler service = new ServiceHandler();
-            String jsonResponse = service.makeServiceCall(url, GET, params);
-            */
-
-            //String jsonResponse = "[ {'name': 'takgalbi','price': '1', 'picture': 'some pic', 'description': 'nice takgalbi' },"  +
-            //        "{'name': 'takgalbi2','price': '2', 'picture': 'some pic2', 'description': 'nice takgalbi2' }]";
-
-            //ParseMenuItems menu = new ParseMenuItems();
-
-
+            HandleScanResult(tableId);
         }
+    }
+
+    public void HandleScanResult(String tableId) {
+        // Get the menu from the server api
+        RestClient.get().getMenu(tableId, new Callback<List<ApiMenuItem>>(){
+            @Override
+            public void success(List<ApiMenuItem> menuResponse, Response response) {
+                Log.i("App", menuResponse.toString());
+                // Store menu in a singleton shared storage
+                SharedStorage.get().setMenu(menuResponse);
+                // Start new intent displaying the menu and allowing order choosing
+                Intent orderSelectIntent = new Intent(MainActivity.this, OrderSelect.class);
+                startActivity(orderSelectIntent);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("App", error.toString());
+            }
+        });
     }
 }
