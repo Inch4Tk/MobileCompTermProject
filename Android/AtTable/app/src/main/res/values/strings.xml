@@ -6,5 +6,6 @@
     <string name="scan_button">Scan QRCode!</string>
     <string name="title_activity_order_select">OrderSelect</string>
     <string name="hello_world">Hello world!</string>
+    <string name="order_title">Order Menu:</string>
 
 </resources>

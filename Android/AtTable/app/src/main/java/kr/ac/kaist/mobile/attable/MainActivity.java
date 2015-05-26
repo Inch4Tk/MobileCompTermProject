@@ -88,7 +88,6 @@ public class MainActivity extends ActionBarActivity {
         RestClient.get().getMenu(tableId, new Callback<List<ApiMenuItem>>(){
             @Override
             public void success(List<ApiMenuItem> menuResponse, Response response) {
-                Log.i("App", menuResponse.toString());
                 // Store menu in a singleton shared storage
                 SharedStorage.get().setMenu(menuResponse);
                 // Start new intent displaying the menu and allowing order choosing
