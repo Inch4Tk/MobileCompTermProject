@@ -57,30 +57,19 @@ public class MainActivity extends ActionBarActivity {
         startScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent signup = new Intent(this,SignUp.class);
-                //startActivity(tab_init);
-                //startActivity(signup);
-                //setContentView(R.layout.sign_up);
-                //Intent intent = new Intent(SignIn.this, SignUp.class);
-                //startActivity(intent);
                 IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
                 integrator.initiateScan();
-                //finish();
             }
         });
 
-        chooseOrder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent listMenu = new Intent(MainActivity.this, ParseMenuItems.class);
-                startActivity(listMenu);
-            }
-        });
+//        chooseOrder.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent listMenu = new Intent(MainActivity.this, ParseMenuItems.class);
+//                startActivity(listMenu);
+//            }
+//        });
     }
-
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -124,8 +113,4 @@ public class MainActivity extends ActionBarActivity {
 
         }
     }
-
-
-
-
 }

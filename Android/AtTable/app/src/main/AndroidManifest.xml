@@ -20,23 +20,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
-
-
-
-        <!-- Parse Menu Items Activity -->
-        <activity
-            android:label="Parsing"
-            android:name=".ParseMenuItems" >
-        </activity>
-
-
-        <!-- Single List Item Activity -->
-        <activity
-            android:label="Contact"
-            android:name=".SingleContactActivity" >
-        </activity>
     </application>
 
 
