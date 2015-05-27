@@ -16,6 +16,7 @@ import com.google.zxing.integration.android.IntentResult;
 import java.util.List;
 
 import kr.ac.kaist.mobile.attable.api.ApiMenuItem;
+import kr.ac.kaist.mobile.attable.api.ApiOrder;
 import kr.ac.kaist.mobile.attable.shared.SharedStorage;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -93,6 +94,21 @@ public class MainActivity extends ActionBarActivity {
                 // Start new intent displaying the menu and allowing order choosing
                 Intent orderSelectIntent = new Intent(MainActivity.this, OrderSelect.class);
                 startActivity(orderSelectIntent);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("App", error.toString());
+            }
+        });
+    }
+
+    public void GetOrders(String tableId) {
+        // Get the orders of a table from the server api
+        RestClient.get().getOrders(tableId, new Callback<List<ApiOrder>>() {
+            @Override
+            public void success(List<ApiOrder> orders, Response response) {
+                Log.i("App", orders.toString());
             }
 
             @Override

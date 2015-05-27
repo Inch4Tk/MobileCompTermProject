@@ -1,9 +1,12 @@
 package kr.ac.kaist.mobile.attable;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import kr.ac.kaist.mobile.attable.shared.SharedStorage;
@@ -17,9 +20,20 @@ public class OrderSelect extends ActionBarActivity {
         setContentView(R.layout.activity_order_select);
 
         // Configure the list view
-        ListView menuList = (ListView) findViewById(R.id.listView);
-        menuList.setAdapter(new OrderAdapter(this, R.layout.list_item_order,
+        final ListView menuList = (ListView) findViewById(R.id.listView);
+        menuList.setAdapter(new OrderSelectAdapter(this, R.layout.list_item_order,
                 SharedStorage.get().getMenu()));
+
+        // Configure proceed button
+        Button proceed = (Button) findViewById(R.id.submitOrder);
+        proceed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Move to the overview
+                Intent orderOverviewIntent = new Intent(OrderSelect.this, OrderOverview.class);
+                startActivity(orderOverviewIntent);
+            }
+        });
     }
 
 

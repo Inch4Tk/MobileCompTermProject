@@ -14,7 +14,7 @@ public class ApiMenuItem {
 
     @Override
     public String toString(){
-        return name + price + picture + description;
+        return name + " " + price + " " + picture + " " + description;
     }
 
     public String getName() {
