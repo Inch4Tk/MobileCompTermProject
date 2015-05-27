@@ -23,6 +23,10 @@
             android:name=".OrderSelect"
             android:label="@string/title_activity_order_select" >
         </activity>
+        <activity
+            android:name=".OrderOverview"
+            android:label="@string/title_activity_order_overview" >
+        </activity>
     </application>
 
 </manifest>
