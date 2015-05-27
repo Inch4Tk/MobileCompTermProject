@@ -8,18 +8,29 @@ import android.widget.ArrayAdapter;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kr.ac.kaist.mobile.attable.api.ApiMenuItem;
+import kr.ac.kaist.mobile.attable.api.ApiOrderPlaceItem;
+import kr.ac.kaist.mobile.attable.shared.SharedStorage;
 
-public class OrderAdapter extends ArrayAdapter<ApiMenuItem> {
+public class OrderSelectAdapter extends ArrayAdapter<ApiMenuItem> {
 
-    public OrderAdapter(Context context, int resource, List<ApiMenuItem> items) {
+    public OrderSelectAdapter(Context context, int resource, List<ApiMenuItem> items) {
         super(context, resource, items);
+
+        // Add values to shared storage if they don't already exist
+        if (SharedStorage.get().getOrderItems() == null) {
+            List<ApiOrderPlaceItem> placeItems = new ArrayList<ApiOrderPlaceItem>();
+            for (ApiMenuItem i : items)
+                placeItems.add(new ApiOrderPlaceItem(i.getName(), 0));
+            SharedStorage.get().setOrderItems(placeItems);
+        }
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View v = convertView;
 
         if (v == null) {
@@ -32,6 +43,7 @@ public class OrderAdapter extends ArrayAdapter<ApiMenuItem> {
 
         // Set items values to the layout
         if (p != null) {
+
             TextView name = (TextView) v.findViewById(R.id.name);
             TextView desc = (TextView) v.findViewById(R.id.description);
             TextView price = (TextView) v.findViewById(R.id.price);
@@ -49,7 +61,16 @@ public class OrderAdapter extends ArrayAdapter<ApiMenuItem> {
                 price.setText(priceF);
             }
             if (amount != null) {
-                amount.setValue(0);
+                amount.setMinValue(0);
+                amount.setMaxValue(50);
+                amount.setValue(SharedStorage.get().getOrderItems().get(position).getAmount());
+                amount.setWrapSelectorWheel(false);
+                amount.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                    @Override
+                    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                        SharedStorage.get().getOrderItems().get(position).setAmount(newVal);
+                    }
+                });
             }
         }
 
