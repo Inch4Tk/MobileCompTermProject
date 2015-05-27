@@ -1,5 +1,6 @@
 package kr.ac.kaist.mobile.attable;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -13,8 +14,13 @@ import android.widget.TextView;
 import java.util.List;
 
 import kr.ac.kaist.mobile.attable.api.ApiMenuItem;
+import kr.ac.kaist.mobile.attable.api.ApiOrder;
+import kr.ac.kaist.mobile.attable.api.ApiOrderPlace;
 import kr.ac.kaist.mobile.attable.api.ApiOrderPlaceItem;
 import kr.ac.kaist.mobile.attable.shared.SharedStorage;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class OrderOverview extends ActionBarActivity {
@@ -34,7 +40,7 @@ public class OrderOverview extends ActionBarActivity {
         proceed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("App", SharedStorage.get().getOrderItems().toString());
+                SubmitOrder();
             }
         });
 
@@ -70,5 +76,28 @@ public class OrderOverview extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void SubmitOrder() {
+        // Create order
+        ApiOrderPlace order = new ApiOrderPlace(SharedStorage.get().getOrderItems());
+
+        // Submit the order to the server
+        RestClient.get().order(SharedStorage.get().getTableId(), order, new Callback<ApiOrder>() {
+            @Override
+            public void success(ApiOrder order, Response response) {
+                Log.i("App", "Created order: " + order.toString());
+                // Reset order
+                SharedStorage.get().setOrderItems(null);
+                // Redirect to main activity
+                Intent toStartIntent = new Intent(OrderOverview.this, MainActivity.class);
+                startActivity(toStartIntent);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("App", error.toString());
+            }
+        });
     }
 }
