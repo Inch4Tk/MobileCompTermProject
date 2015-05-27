@@ -15,7 +15,7 @@
             <div class="col-md-8">
               <p>Name: {{menuI.name}}
                 <br/>Description: {{menuI.description}}
-                <br/>Price: {{menuI.price | currency:"&#8361;"}}</p>
+                <br/>Price: {{menuI.price | currency:"&#8361;":0}}</p>
             </div>
             <div class="col-md-3">
               <input type="number" class="form-control" ng-model="menuI.amount" />

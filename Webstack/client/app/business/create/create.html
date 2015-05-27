@@ -31,7 +31,7 @@
             <div class="col-md-8">
               <p>Name: {{menuI.name}}
               <br/>Description: {{menuI.description}}
-              <br/>Price: {{menuI.price | currency:"&#8361;"}}
+              <br/>Price: {{menuI.price | currency:"&#8361;":0}}
               </p>
             </div>
             <img ngf-src="menuI.picture[0]" ngf-accept="'.jpg,.png'" width='100px' height='100px' alt="" />

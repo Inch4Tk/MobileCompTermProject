@@ -27,10 +27,9 @@ angular.module('atTableApp')
       var amt = 0;
       for (var i=0; i < $scope.orders.length; ++i){
         var order = $scope.orders[i];
-        if (order.table == table._id && order.status < 3)
-        {
+        if (order.table == table._id && order.status < 3) {
           for (var j=0; j < order.items.length; ++j)
-          amt += order.items[i].amount * order.items[i].price;
+            amt += order.items[j].amount * order.items[j].price;
         }
       }
       return amt;

@@ -8,7 +8,7 @@
       <h3>{{table.name}}</h3>
       <ul class="list-group">
         <li class="list-group-item">
-          <span class="pull-right">Current Bill: {{getBill(table)}}</span>
+          <span class="pull-right">Current Bill: {{getBill(table) | currency:"&#8361;":0}}</span>
           <a href="#" ng-click="payOrders(table)"><span class="glyphicon glyphicon-shopping-cart"></span> Pay Orders</a>
         </li>
 <!--        Orders-->
