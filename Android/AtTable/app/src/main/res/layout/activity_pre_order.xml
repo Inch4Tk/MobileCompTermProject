@@ -4,19 +4,19 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="kr.ac.kaist.mobile.attable.OrderOverview">
+    tools:context="kr.ac.kaist.mobile.attable.PreOrder">
 
     <TextView
-        android:id="@+id/order_overview_title"
+        android:id="@+id/pre_order_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/order_overview_title"
+        android:text="@string/pre_order_title"
         android:textSize="25sp"/>
 
     <Space
         android:layout_width="20dp"
         android:layout_height="30dp"
-        android:layout_below="@+id/order_overview_title"
+        android:layout_below="@+id/pre_order_title"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/space" />
@@ -49,13 +49,13 @@
             android:layout_width="0dip"
             android:layout_height="60dp"
             android:text="@string/cancel"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <Button
-            android:id="@+id/submitOrder"
+            android:id="@+id/orderMore"
             android:layout_width="0dip"
             android:layout_height="60dp"
-            android:text="@string/order_submit"
+            android:text="@string/order_more"
             android:layout_weight="1"/>
 
     </TableRow>

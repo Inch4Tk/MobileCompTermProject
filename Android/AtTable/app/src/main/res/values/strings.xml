@@ -12,5 +12,8 @@
     <string name="order_overview_title">Order Overview:</string>
     <string name="order_submit">Submit Order!</string>
     <string name="cancel">Cancel</string>
+    <string name="title_activity_pre_order">PreOrder</string>
+    <string name="order_more">Order More</string>
+    <string name="pre_order_title">Previous Orders:</string>
 
 </resources>

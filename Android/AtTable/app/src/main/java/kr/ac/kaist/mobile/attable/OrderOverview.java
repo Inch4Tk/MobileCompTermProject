@@ -49,8 +49,8 @@ public class OrderOverview extends ActionBarActivity {
             SharedStorage.get().setFilteredOrderItems(filteredOrders);
             SharedStorage.get().setFilteredMenu(filteredMenu);
             // Configure the list view
-            final ListView menuList = (ListView) findViewById(R.id.listView);
-            menuList.setAdapter(new OrderOverviewAdapter(this, R.layout.list_item_order_place,
+            final ListView orderList = (ListView) findViewById(R.id.listView);
+            orderList.setAdapter(new OrderOverviewAdapter(this, R.layout.list_item_order_place,
                     filteredOrders));
 
             // Configure cancel button
@@ -75,8 +75,8 @@ public class OrderOverview extends ActionBarActivity {
             List<ApiMenuItem> menu = SharedStorage.get().getMenu();
             List<ApiOrderPlaceItem> placed = SharedStorage.get().getOrderItems();
             int agg = 0;
-            for (int i = 0; i < menu.size(); ++i) {
-                agg += menu.get(i).getPrice() * placed.get(i).getAmount();
+            for (int i = 0; i < filteredMenu.size(); ++i) {
+                agg += filteredMenu.get(i).getPrice() * filteredOrders.get(i).getAmount();
             }
             aggregate.setText(String.format("Total price: %,d \u20A9", agg));
         }

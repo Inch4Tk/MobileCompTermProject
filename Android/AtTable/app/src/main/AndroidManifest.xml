@@ -27,6 +27,10 @@
             android:name=".OrderOverview"
             android:label="@string/title_activity_order_overview" >
         </activity>
+        <activity
+            android:name=".PreOrder"
+            android:label="@string/title_activity_pre_order" >
+        </activity>
     </application>
 
 </manifest>

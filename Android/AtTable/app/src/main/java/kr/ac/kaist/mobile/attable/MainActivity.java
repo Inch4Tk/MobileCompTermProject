@@ -26,12 +26,15 @@ import retrofit.client.Response;
 public class MainActivity extends ActionBarActivity {
 
     Button startScan;
+    private int fetches = 0;
 
     ///////////////////////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fetches = 0;
 
         startScan = (Button) findViewById(R.id.buttonscn);
 
@@ -86,30 +89,42 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void HandleScanResult() {
+        // Get the previous orders
+        GetOrders(SharedStorage.get().getTableId());
         // Check if we already have the menu from this table
         if (SharedStorage.get().getFetchMenu()){
-            // Get the menu from the server api
-            RestClient.get().getMenu(SharedStorage.get().getTableId(), new Callback<List<ApiMenuItem>>(){
-                @Override
-                public void success(List<ApiMenuItem> menuResponse, Response response) {
-                    // Store menu in a singleton shared storage
-                    SharedStorage.get().setMenu(menuResponse);
-                    // Start new intent displaying the menu and allowing order choosing
-                    Intent orderSelectIntent = new Intent(MainActivity.this, OrderSelect.class);
-                    startActivity(orderSelectIntent);
-                }
-
-                @Override
-                public void failure(RetrofitError error) {
-                    Log.e("App", error.toString());
-                }
-            });
+            GetMenu(SharedStorage.get().getTableId());
         }
         else {
+            fetches += 1;
+            CheckFetches();
+        }
+    }
+
+    public void CheckFetches(){
+        if (fetches == 2) {
             // Start new intent displaying the menu and allowing order choosing
-            Intent orderSelectIntent = new Intent(MainActivity.this, OrderSelect.class);
+            Intent orderSelectIntent = new Intent(MainActivity.this, PreOrder.class);
             startActivity(orderSelectIntent);
         }
+    }
+
+    public void GetMenu(String tableId) {
+        // Get the menu from the server api
+        RestClient.get().getMenu(tableId, new Callback<List<ApiMenuItem>>(){
+            @Override
+            public void success(List<ApiMenuItem> menuResponse, Response response) {
+                // Store menu in a singleton shared storage
+                SharedStorage.get().setMenu(menuResponse);
+                fetches += 1;
+                CheckFetches();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("App", error.toString());
+            }
+        });
     }
 
     public void GetOrders(String tableId) {
@@ -117,7 +132,9 @@ public class MainActivity extends ActionBarActivity {
         RestClient.get().getOrders(tableId, new Callback<List<ApiOrder>>() {
             @Override
             public void success(List<ApiOrder> orders, Response response) {
-                Log.i("App", "Received orders from server: " + orders.toString());
+                SharedStorage.get().setPrevOrders(orders);
+                fetches += 1;
+                CheckFetches();
             }
 
             @Override

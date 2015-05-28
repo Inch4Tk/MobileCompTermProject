@@ -8,7 +8,20 @@ public class ApiOrder {
     private String business;
     private String table;
     private String timestamp;
-    private List<ApiOrderItems> items;
+    private List<ApiOrderItem> items;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public List<ApiOrderItem> getItems() {
+        return items;
+    }
+
 
     public ApiOrder() {
 
