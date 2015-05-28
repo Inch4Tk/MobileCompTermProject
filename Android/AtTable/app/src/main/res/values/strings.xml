@@ -7,9 +7,10 @@
     <string name="title_activity_order_select">OrderSelect</string>
     <string name="hello_world">Hello world!</string>
     <string name="order_title">Order Menu:</string>
-    <string name="order_proceed">Proceed to Overview!</string>
+    <string name="order_proceed">Proceed!</string>
     <string name="title_activity_order_overview">OrderOverview</string>
     <string name="order_overview_title">Order Overview:</string>
     <string name="order_submit">Submit Order!</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

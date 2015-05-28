@@ -35,6 +35,14 @@ public class OrderOverview extends ActionBarActivity {
         menuList.setAdapter(new OrderOverviewAdapter(this, R.layout.list_item_order_place,
                 SharedStorage.get().getOrderItems()));
 
+        // Configure cancel button
+        Button cancel = (Button) findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Cancel();
+            }
+        });
         // Configure proceed button
         Button proceed = (Button) findViewById(R.id.submitOrder);
         proceed.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +84,14 @@ public class OrderOverview extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void Cancel() {
+        // Remove all of the currently set shared storage orders
+        SharedStorage.get().setOrderItems(null);
+        // Redirect to main activity
+        Intent toStartIntent = new Intent(OrderOverview.this, MainActivity.class);
+        startActivity(toStartIntent);
     }
 
     public void SubmitOrder() {

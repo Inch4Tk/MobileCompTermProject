@@ -34,14 +34,30 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:id="@+id/aggregate"
-        android:layout_above="@+id/submitOrder"
-        android:layout_alignParentRight="true" />
+        android:layout_above="@+id/table"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
 
-    <Button
-        android:id="@+id/submitOrder"
+    <TableRow
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="@string/order_submit"/>
+        android:id="@+id/table"
+        >
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="0dip"
+            android:layout_height="60dp"
+            android:text="@string/cancel"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/submitOrder"
+            android:layout_width="0dip"
+            android:layout_height="60dp"
+            android:text="@string/order_submit"
+            android:layout_weight="1"/>
+
+    </TableRow>
 
 </RelativeLayout>

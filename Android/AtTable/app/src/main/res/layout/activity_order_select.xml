@@ -26,13 +26,36 @@
         android:layout_height="wrap_content"
         android:id="@+id/listView"
         android:layout_below="@+id/space"
-        android:layout_above="@+id/submitOrder" />
+        android:layout_above="@+id/aggregate" />
 
-    <Button
-        android:id="@+id/submitOrder"
+    <Space
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="10dp"
+        android:id="@+id/aggregate"
+        android:layout_above="@+id/table"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="@string/order_proceed"/>
+        android:id="@+id/table"
+        >
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="0dip"
+            android:layout_height="60dp"
+            android:text="@string/cancel"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/submitOrder"
+            android:layout_width="0dip"
+            android:layout_height="60dp"
+            android:text="@string/order_proceed"
+            android:layout_weight="1"/>
+
+    </TableRow>
 
 </RelativeLayout>
