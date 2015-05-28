@@ -84,8 +84,10 @@ exports.create = function (req, res, next) {
       {
         for (var j=0; j < b.menu.length; ++j)
         {
-          // Check if name is the same as in menu, then add it to the ilist
-          if (req.body.items[i].name == b.menu[j].name)
+          // Check if amount is bigger than 0 and 
+          // name is the same as in menu, then add it to the ilist
+          if (req.body.items[i].amount > 0 && 
+              req.body.items[i].name == b.menu[j].name)
           {
             ilist.push(
               {name: b.menu[j].name, 
