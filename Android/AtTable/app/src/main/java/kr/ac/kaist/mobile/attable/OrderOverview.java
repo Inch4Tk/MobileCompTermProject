@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kr.ac.kaist.mobile.attable.api.ApiMenuItem;
@@ -30,37 +31,55 @@ public class OrderOverview extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_overview);
 
-        // Configure the list view
-        final ListView menuList = (ListView) findViewById(R.id.listView);
-        menuList.setAdapter(new OrderOverviewAdapter(this, R.layout.list_item_order_place,
-                SharedStorage.get().getOrderItems()));
-
-        // Configure cancel button
-        Button cancel = (Button) findViewById(R.id.cancel);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Cancel();
+        // Filter items
+        List<ApiOrderPlaceItem> filteredOrders = new ArrayList<ApiOrderPlaceItem>();
+        List<ApiMenuItem> filteredMenu = new ArrayList<ApiMenuItem>();
+        for (int i=0; i<SharedStorage.get().getOrderItems().size(); ++i) {
+            if (SharedStorage.get().getOrderItems().get(i).getAmount() > 0) {
+                filteredOrders.add(SharedStorage.get().getOrderItems().get(i));
+                filteredMenu.add(SharedStorage.get().getMenu().get(i));
             }
-        });
-        // Configure proceed button
-        Button proceed = (Button) findViewById(R.id.submitOrder);
-        proceed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SubmitOrder();
-            }
-        });
-
-        // Aggregate amount
-        TextView aggregate = (TextView) findViewById(R.id.aggregate);
-        List<ApiMenuItem> menu = SharedStorage.get().getMenu();
-        List<ApiOrderPlaceItem> placed = SharedStorage.get().getOrderItems();
-        int agg = 0;
-        for(int i=0; i<menu.size(); ++i) {
-            agg += menu.get(i).getPrice() * placed.get(i).getAmount();
         }
-        aggregate.setText(String.format("Total price: %,d \u20A9", agg));
+        // Only do any work if we actually have an order
+        if (filteredOrders.size() == 0) {
+            Cancel();
+        }
+        else {
+            // Set filtered items to list adapter
+            SharedStorage.get().setFilteredOrderItems(filteredOrders);
+            SharedStorage.get().setFilteredMenu(filteredMenu);
+            // Configure the list view
+            final ListView menuList = (ListView) findViewById(R.id.listView);
+            menuList.setAdapter(new OrderOverviewAdapter(this, R.layout.list_item_order_place,
+                    filteredOrders));
+
+            // Configure cancel button
+            Button cancel = (Button) findViewById(R.id.cancel);
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Cancel();
+                }
+            });
+            // Configure proceed button
+            Button proceed = (Button) findViewById(R.id.submitOrder);
+            proceed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SubmitOrder();
+                }
+            });
+
+            // Aggregate amount
+            TextView aggregate = (TextView) findViewById(R.id.aggregate);
+            List<ApiMenuItem> menu = SharedStorage.get().getMenu();
+            List<ApiOrderPlaceItem> placed = SharedStorage.get().getOrderItems();
+            int agg = 0;
+            for (int i = 0; i < menu.size(); ++i) {
+                agg += menu.get(i).getPrice() * placed.get(i).getAmount();
+            }
+            aggregate.setText(String.format("Total price: %,d \u20A9", agg));
+        }
     }
 
 
@@ -96,7 +115,7 @@ public class OrderOverview extends ActionBarActivity {
 
     public void SubmitOrder() {
         // Create order
-        ApiOrderPlace order = new ApiOrderPlace(SharedStorage.get().getOrderItems());
+        ApiOrderPlace order = new ApiOrderPlace(SharedStorage.get().getFilteredOrderItems());
 
         // Submit the order to the server
         RestClient.get().order(SharedStorage.get().getTableId(), order, new Callback<ApiOrder>() {

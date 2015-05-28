@@ -30,7 +30,7 @@ public class OrderOverviewAdapter extends ArrayAdapter<ApiOrderPlaceItem> {
         }
 
         ApiOrderPlaceItem p = getItem(position);
-        ApiMenuItem mi = SharedStorage.get().getMenu().get(position);
+        ApiMenuItem mi = SharedStorage.get().getFilteredMenu().get(position);
 
         // Set items values to the layout
         if (p != null) {

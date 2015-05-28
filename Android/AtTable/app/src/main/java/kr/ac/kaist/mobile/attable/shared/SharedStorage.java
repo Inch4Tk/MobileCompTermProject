@@ -33,6 +33,8 @@ public class SharedStorage {
             // Rest values of other storage items, because they are no longer valid
             menu = null;
             orderItems = null;
+            filteredOrderItems = null;
+            filteredMenu = null;
             this.tableId = tableId;
             fetchMenu = true;
         }
@@ -51,6 +53,9 @@ public class SharedStorage {
     }
     public void setMenu(List<ApiMenuItem> menu) {
         this.menu = menu;
+        filteredOrderItems = null;
+        filteredMenu = null;
+        orderItems = null;
         fetchMenu = false;
     }
     private List<ApiMenuItem> menu = null;
@@ -64,5 +69,20 @@ public class SharedStorage {
     }
     private List<ApiOrderPlaceItem> orderItems = null;
 
+    public List<ApiOrderPlaceItem> getFilteredOrderItems() {
+        return filteredOrderItems;
+    }
+    public void setFilteredOrderItems(List<ApiOrderPlaceItem> filteredOrderItems) {
+        this.filteredOrderItems = filteredOrderItems;
+    }
+    private List<ApiOrderPlaceItem> filteredOrderItems = null;
+
+    public List<ApiMenuItem> getFilteredMenu() {
+        return filteredMenu;
+    }
+    public void setFilteredMenu(List<ApiMenuItem> filteredMenu) {
+        this.filteredMenu = filteredMenu;
+    }
+    private List<ApiMenuItem> filteredMenu = null;
 
 }
