@@ -120,7 +120,7 @@ exports.getMenuWPicture = function(req, res, next) {
   Table.findById(tableId, function(err, table){
     if(err) { return res.json(500); }
     // Now resolve the business over the table
-    Business.findById(table.owner).populate('picture').exec(function(err, business){
+    Business.findById(table.owner).populate('menu.picture').exec(function(err, business){
       if(err) { return res.json(500); }
       // Return the menu
       return res.json(201, business.menu);
