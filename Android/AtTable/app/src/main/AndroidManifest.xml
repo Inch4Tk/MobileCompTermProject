@@ -31,6 +31,10 @@
             android:name=".PreOrder"
             android:label="@string/title_activity_pre_order" >
         </activity>
+        <activity
+            android:name=".SuccessfulOrder"
+            android:label="@string/title_activity_successful_order" >
+        </activity>
     </application>
 
 </manifest>

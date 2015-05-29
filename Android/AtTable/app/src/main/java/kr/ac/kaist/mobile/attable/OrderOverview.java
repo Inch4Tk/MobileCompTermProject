@@ -124,9 +124,9 @@ public class OrderOverview extends ActionBarActivity {
                 Log.i("App", "Created order: " + order.toString());
                 // Reset order
                 SharedStorage.get().setOrderItems(null);
-                // Redirect to main activity
-                Intent toStartIntent = new Intent(OrderOverview.this, MainActivity.class);
-                startActivity(toStartIntent);
+                // Redirect to order successful
+                Intent toSuccessful = new Intent(OrderOverview.this, SuccessfulOrder.class);
+                startActivity(toSuccessful);
             }
 
             @Override

@@ -15,5 +15,8 @@
     <string name="title_activity_pre_order">PreOrder</string>
     <string name="order_more">Order More</string>
     <string name="pre_order_title">Previous Orders:</string>
+    <string name="title_activity_successful_order">SuccessfulOrder</string>
+    <string name="order_successful">Your Order was successful!</string>
+    <string name="back_to_start">Continue</string>
 
 </resources>
