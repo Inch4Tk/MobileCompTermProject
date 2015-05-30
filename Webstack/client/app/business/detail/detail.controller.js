@@ -24,14 +24,20 @@ angular.module('atTableApp')
     $http.get('/api/business/' + currentId).success(function(business) {
       $scope.business = business;
       $scope.qrData = formatQRData(business);  
+      $http.get('/api/business/menupic/' + $scope.business.menu[4].picture)
+        .success(function(picture) {
+          console.log(picture);
+        });
+    
     });
+    
     
 //      // Code to get a picture from a business and display
 //      <img id="image" alt="data url loaded image" />
-//      $http.get('/api/business/menupic/' + $scope.business.tables[0]._id)
-//        .success(function(menu) {
+//      $http.get('/api/business/menupic/' + pictureId)
+//        .success(function(picture) {
 //          
-//        var raw = String.fromCharCode.apply(null,menu[4].picture.data.data);
+//        var raw = String.fromCharCode.apply(null, picture.data);
 //        var b64=btoa(raw);
 //        var dataURL="data:image/jpeg;base64,"+b64;
 //        console.log(dataURL);

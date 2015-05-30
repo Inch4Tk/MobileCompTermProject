@@ -1,6 +1,9 @@
 package kr.ac.kaist.mobile.attable.shared;
 
 
+import android.graphics.Bitmap;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import kr.ac.kaist.mobile.attable.api.ApiMenuItem;
@@ -97,4 +100,21 @@ public class SharedStorage {
     // Act temporary as intermediate between adapters, no safe sharing between different activities
     private List<ApiMenuItem> filteredMenu = null; // Act kind of temporary
 
+    // Picture storage
+    public List<Bitmap> getMenuPictures() {
+        return menuPictures;
+    }
+    public List<String> getMenuPictureKeys() {
+        return menuPictureKeys;
+    }
+    public void resetMenuPictures() {
+        this.menuPictures.clear();
+        this.menuPictureKeys.clear();
+    }
+    public void addMenuPictures(String pictureId, Bitmap menuPicture) {
+        this.menuPictures.add(menuPicture);
+        this.menuPictureKeys.add(pictureId);
+    }
+    private List<Bitmap> menuPictures = new ArrayList<Bitmap>();
+    private List<String> menuPictureKeys = new ArrayList<String>();
 }

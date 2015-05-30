@@ -112,18 +112,13 @@ exports.getMenu = function(req, res, next) {
 };
 
 /**
- * Gets the menu of the correct business via the tableid with picture
+ * Gets the picture by its id
  */
-exports.getMenuWPicture = function(req, res, next) {
-  var tableId = req.params.id
+exports.getMenuPicture = function(req, res, next) {
+  var pictureId = req.params.id
   // First resolve the table
-  Table.findById(tableId, function(err, table){
+  MenuItemPic.findById(pictureId, function(err, pic){
     if(err) { return res.json(500); }
-    // Now resolve the business over the table
-    Business.findById(table.owner).populate('menu.picture').exec(function(err, business){
-      if(err) { return res.json(500); }
-      // Return the menu
-      return res.json(201, business.menu);
-    });
+    return res.json(201, pic);
   });
 };

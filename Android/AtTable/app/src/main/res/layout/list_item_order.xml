@@ -12,12 +12,12 @@
                 <TextView
                     android:id="@+id/name"
                     android:textStyle="bold"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:layout_width="0dip" android:layout_weight="2"
                     android:layout_height="match_parent" />
                 <TextView
                     android:id="@+id/price"
-                    android:textSize="20dp"
+                    android:textSize="20sp"
                     android:layout_width="0dip" android:layout_weight="1"
                     android:layout_height="match_parent" />
             </TableRow>
@@ -27,7 +27,13 @@
                     android:id="@+id/description"
                     android:layout_width="0dip" android:layout_weight="1"
                     android:layout_height="match_parent" />
+                <ImageView
+                    android:id="@+id/picture"
+                    android:layout_width="0dip" android:layout_weight="1"
+                    android:layout_height="120dip"
+                    android:layout_gravity="center"/>
             </TableRow>
+
         </TableLayout>
 
         <TableLayout android:layout_width="0dip"

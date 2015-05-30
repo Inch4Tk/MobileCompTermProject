@@ -13,6 +13,9 @@ public interface Api {
     @GET("/business/menu/{id}")
     void getMenu(@Path("id") String tableId, Callback<List<ApiMenuItem>> callback);
 
+    @GET("/business/menupic/{id}")
+    void getMenuPicture(@Path("id") String pictureId, Callback<ApiPicture> callback);
+
     @GET("/order/table/{id}")
     void getOrders(@Path("id") String tableId, Callback<List<ApiOrder>> callback);
 

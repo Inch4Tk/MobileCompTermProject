@@ -4,7 +4,7 @@ public class ApiMenuItem {
 
     private String name;
     private int price;
-    private String picture; // will have to fll this out in the future
+    private String picture; // pictureId
     private String description;
 
     // Empty default constructor

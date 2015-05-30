@@ -1,6 +1,8 @@
 package kr.ac.kaist.mobile.attable;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -17,6 +19,7 @@ import java.util.List;
 
 import kr.ac.kaist.mobile.attable.api.ApiMenuItem;
 import kr.ac.kaist.mobile.attable.api.ApiOrder;
+import kr.ac.kaist.mobile.attable.api.ApiPicture;
 import kr.ac.kaist.mobile.attable.shared.SharedStorage;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -27,6 +30,7 @@ public class MainActivity extends ActionBarActivity {
 
     Button startScan;
     private int fetches = 0;
+    private int requiredFetches = 2;
 
     ///////////////////////
     @Override
@@ -35,6 +39,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         fetches = 0;
+        requiredFetches = 2;
 
         startScan = (Button) findViewById(R.id.buttonscn);
 
@@ -102,7 +107,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void CheckFetches(){
-        if (fetches == 2) {
+        if (fetches >= requiredFetches) {
             // Start new intent displaying the menu and allowing order choosing
             Intent orderSelectIntent = new Intent(MainActivity.this, PreOrder.class);
             startActivity(orderSelectIntent);
@@ -110,12 +115,48 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void GetMenu(String tableId) {
+        // Reset the pictures array
+        SharedStorage.get().resetMenuPictures();
         // Get the menu from the server api
         RestClient.get().getMenu(tableId, new Callback<List<ApiMenuItem>>(){
             @Override
             public void success(List<ApiMenuItem> menuResponse, Response response) {
                 // Store menu in a singleton shared storage
                 SharedStorage.get().setMenu(menuResponse);
+
+                // Go over the fetched menu and check for pictures to resolve
+                for (ApiMenuItem i : menuResponse) {
+                    if (i.getPicture() != null) {
+                        requiredFetches += 1;
+                        RestClient.get().getMenuPicture(i.getPicture(), new Callback<ApiPicture>() {
+                            @Override
+                            public void success(ApiPicture apiPicture, Response response) {
+                                // Convert picture to bitmap and store in shared storage
+                                if (apiPicture != null) {
+                                    List<Byte> buffer = apiPicture.getData().getData();
+                                    byte[] byteArray = new byte[buffer.size()];
+                                    int i = 0;
+                                    for (Byte current : buffer) {
+                                        byteArray[i] = current;
+                                        i++;
+                                    }
+                                    Bitmap decodedByte = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                                    SharedStorage.get().addMenuPictures(apiPicture.get_id(), decodedByte);
+                                }
+                                // Check fetches
+                                fetches += 1;
+                                CheckFetches();
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                Log.e("App", error.toString());
+                            }
+                        });
+                    }
+                }
+
+                // Increment fetches
                 fetches += 1;
                 CheckFetches();
             }
