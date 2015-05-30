@@ -20,7 +20,6 @@ angular.module('atTableApp')
       return data;
     };
     
-    // TODO: Should put this to factory
     $http.get('/api/business/' + currentId).success(function(business) {
       $scope.business = business;
       $scope.qrData = formatQRData(business);

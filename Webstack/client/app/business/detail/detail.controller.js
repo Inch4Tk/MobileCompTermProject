@@ -21,29 +21,29 @@ angular.module('atTableApp')
       return data;
     };
     
+    // Picture fetch event handler factory
+    function make_pictureFetchHandler(i) {
+      return function (picture) {
+        var raw = String.fromCharCode.apply(null, picture.data.data);
+        var b64 = btoa(raw);
+        var dataURL = "data:image/jpeg;base64," + b64;
+        $scope.business.menu[i].pictureData = dataURL;
+      };
+    }
+   
     $http.get('/api/business/' + currentId).success(function(business) {
       $scope.business = business;
-      $scope.qrData = formatQRData(business);  
-      $http.get('/api/business/menupic/' + $scope.business.menu[4].picture)
-        .success(function(picture) {
-          console.log(picture);
-        });
-    
-    });
-    
-    
-//      // Code to get a picture from a business and display
-//      <img id="image" alt="data url loaded image" />
-//      $http.get('/api/business/menupic/' + pictureId)
-//        .success(function(picture) {
-//          
-//        var raw = String.fromCharCode.apply(null, picture.data);
-//        var b64=btoa(raw);
-//        var dataURL="data:image/jpeg;base64,"+b64;
-//        console.log(dataURL);
-//        document.getElementById("image").src = dataURL;
-//      });
-    
+      $scope.qrData = formatQRData(business);
+      // Fetch images
+      for(var i=0; i<$scope.business.menu.length; ++i) {
+        $scope.business.menu[i].pictureData = null;
+        if ($scope.business.menu[i].picture) {
+          $http.get('/api/business/menupic/' + $scope.business.menu[i].picture)
+            .success(make_pictureFetchHandler(i));
+        }
+      }
+     });
+     
     $scope.toggleQR = function(){
       $scope.showQR = !$scope.showQR;
     };

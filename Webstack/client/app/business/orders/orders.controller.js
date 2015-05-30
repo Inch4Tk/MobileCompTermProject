@@ -7,7 +7,6 @@ angular.module('atTableApp')
     $scope.business = {};
     $scope.orders = [];
        
-    // TODO: Should put this to factory
     $http.get('/api/business/' + currentId).success(function (business) {
       $scope.business = business;
     });

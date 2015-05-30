@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="panel-body">
-    <ul class="list-group" ng-repeat="business in businesses">
+    <ul class="list-group" ng-repeat="business in businesses | filter:{name: businessFilter}">
       <li class="list-group-item">
         <a href="business/detail/{{business._id}}">{{business.name}}</a>
         <a class="pull-right" href="business/detail/{{business._id}}"><span class="glyphicon glyphicon-list-alt"></span> Details</a>

@@ -3,10 +3,35 @@
   <!-- List all the business details, menu etc-->
   <div class="panel-default">
     <div class="panel-heading clearfix">
-      <h3 class="panel-title pull-left">{{business.name}} {{business._id}}</h3>
+      <h3 class="panel-title pull-left">{{business.name}}: Tables</h3>
     </div>
     <div class="panel-body">
-      {{business}}
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="table in business.tables">
+          <strong>Name:</strong> {{table.name}}, <strong>Id:</strong> {{table._id}}</li>
+      </ul>
+    </div>
+  </div>
+  <!-- List all the business details, menu etc-->
+  <div class="panel-default">
+    <div class="panel-heading clearfix">
+      <h3 class="panel-title pull-left">{{business.name}}: Menu</h3>
+    </div>
+    <div class="panel-body">
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="menuitem in business.menu">
+          <div class="row">
+            <div class="col-md-4">
+              <strong>Name:</strong> {{menuitem.name}}
+              <br/>
+              <strong>Price:</strong> {{menuitem.price}}
+              <br/>
+              <strong>Description:</strong> "{{menuitem.description}}"
+            </div>
+            <img height="120px" ng-show="menuitem.pictureData != null" src="{{menuitem.pictureData}}"/>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
   <!-- QR-Codes printing + showing-->
