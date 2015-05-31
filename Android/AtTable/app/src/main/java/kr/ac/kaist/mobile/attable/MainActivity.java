@@ -52,8 +52,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
         // Execute emulator only startup code
-        if(Build.FINGERPRINT.startsWith("generic"))
-        {
+        if(Build.FINGERPRINT.startsWith("generic")) {
             // Fake a scan, because we can't do anything else on emulator anyways
             SharedStorage.get().setTableId("5561cd3c85676ad4231e959d");
             HandleScanResult();

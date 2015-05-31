@@ -1,5 +1,7 @@
 package kr.ac.kaist.mobile.attable;
 
+import android.os.Build;
+
 import com.squareup.okhttp.OkHttpClient;
 
 import kr.ac.kaist.mobile.attable.api.Api;
@@ -9,7 +11,7 @@ import retrofit.client.OkClient;
 public class RestClient {
 
     private static Api REST_CLIENT;
-    private static String ROOT = "http://10.0.2.2:9000/api"; // Insert the real url here later
+    private static String ROOT;
 
     static {
         setupRestClient();
@@ -22,6 +24,15 @@ public class RestClient {
     }
 
     private static void setupRestClient() {
+
+        // Set ip to localhost if started from phone emulator and to real host if started from real phone
+        if(Build.FINGERPRINT.startsWith("generic")) {
+            ROOT = "http://10.0.2.2:9000/api";
+        }
+        else {
+            ROOT = "http://attable-inch.rhcloud.com/api";
+        }
+
         RestAdapter.Builder builder = new RestAdapter.Builder()
                 .setEndpoint(ROOT)
                 .setClient(new OkClient(new OkHttpClient()));
