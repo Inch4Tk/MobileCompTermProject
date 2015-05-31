@@ -33,8 +33,9 @@ angular.module('atTableApp')
     
     // Add x new tables
     $scope.addTables = function() {
-      if ($scope.nTableCount < 1)
+      if ($scope.nTableCount < 1) {
         return;
+      }
       for (var i=0; i < $scope.nTableCount; ++i)
       {
         var tname = 'Table ' + $scope.tables.length.toString();
@@ -51,8 +52,9 @@ angular.module('atTableApp')
     // Add a menu item to the $scope.menu collection
     $scope.addMenuI = function() {
       var p = parseInt($scope.menuIPrice);
-      if (!p || $scope.menuIName === '')
+      if (!p || $scope.menuIName === '') {
         return;
+      }
       $scope.menu.push({
         name: $scope.menuIName,
         price: p,
@@ -67,8 +69,9 @@ angular.module('atTableApp')
     
     // Check if there is a picture to show in upload
     $scope.isMIPicture = function() {
-      if ($scope.menuIPic)
+      if ($scope.menuIPic) {
         return true;
+      }
       return false;
     };
     
@@ -82,10 +85,12 @@ angular.module('atTableApp')
     function createBusiness() {
       // Overwrite every menu item with its id
       for (var i = 0; i < $scope.menu.length; i++) {
-        if ($scope.pictureIds[i])
+        if ($scope.pictureIds[i]) {
           $scope.menu[i].picture = $scope.pictureIds[i];
-        else
+        }
+        else {
           $scope.menu[i].picture = null;
+        }
       }
       // Create the business and upload it  
       var newBusiness = {
@@ -101,20 +106,20 @@ angular.module('atTableApp')
     }
     
     // Progress handler factory
-    function make_progressHandler(i) {
+    function makeProgressHandler(i) {
       return function (evt) {
         $scope.cursizes[i] = evt.loaded;
         $scope.totalsizes[i] = evt.total;
       };
     }
     // Success handler factory
-    function make_successHandler(j) {
-      return function (data, status, headers, config) {
+    function makeSuccessHandler(j) {
+      return function (data) {
         ++$scope.finishedFiles;
         $scope.pictureIds[j] = data;
         
         // Check if this is the last file to finish
-        if ($scope.finishedFiles == $scope.toUpload) {   
+        if ($scope.finishedFiles === $scope.toUpload) {   
           // Call business creation function after last pic is handled
           createBusiness();
         }
@@ -122,32 +127,36 @@ angular.module('atTableApp')
     }
     
     $scope.createBusiness = function() {
-      if ($scope.newBusinessName === '')
+      if ($scope.newBusinessName === '') {
         return;
+      }
         
       // First upload all pictures
       // Check for all pictures that have to be uploaded
       for (var i = 0; i < $scope.menu.length; i++) {
-        if ($scope.menu[i].picture)
+        if ($scope.menu[i].picture) {
           ++$scope.toUpload;
+        }
       }
       // Actually upload something
-      for (var i = 0; i < $scope.menu.length; i++) {
+      for (i = 0; i < $scope.menu.length; i++) {
         // Check if picture exists
-        if (!$scope.menu[i].picture)
+        if (!$scope.menu[i].picture) {
           continue;
+        }
         // Upload file
         var file = $scope.menu[i].picture[0];
         Upload.upload({
           url: '/api/business/mipic',
           file: file
         })
-        .progress(make_progressHandler(i))
-        .success(make_successHandler(i));
+        .progress(makeProgressHandler(i))
+        .success(makeSuccessHandler(i));
       }
       // If no pictures were uploaded, the business was not submitted
-      if ($scope.toUpload == 0)
+      if ($scope.toUpload === 0) {
         createBusiness();
+      }
     };
 
   });

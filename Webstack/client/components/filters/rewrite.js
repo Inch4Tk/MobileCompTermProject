@@ -4,8 +4,9 @@
 angular.module('atTableFilters', []).filter('rewrite', function() {
   return function(input, rewrites) {
     for (var i=0; i < rewrites.length; ++i){
-      if (input == i)
+      if (input === i) {
         return rewrites[i];
+      }
     }
     return input;
   };

@@ -12,18 +12,19 @@
         var elemToPrint = document.getElementById(attrs.printElementId);
 
         if (elemToPrint) {
-          printElement(elemToPrint);
+          printElement();
         }
       });
 
     }
 
-    function printElement(elem) {
+    function printElement() {
       // Open a popup where the print content is placed
+      var printpath = window.location.href + '/print';
+      var popupWin = null;
       // Handle Chrome
       if (navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
-        var path = window.location.href + '/print';
-        var popupWin = window.open(path, '_blank', 'width=1000,height=600,scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no');
+        popupWin = window.open(printpath, '_blank', 'width=1000,height=600,scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no');
         popupWin.window.focus();
         popupWin.addEventListener('load', function(){
           popupWin.print();
@@ -31,17 +32,16 @@
             popupWin.close();
           };
         }, true);
-        popupWin.onbeforeunload = function (event) {
+        popupWin.onbeforeunload = function () {
           popupWin.close();
           return '.\n';
         };
-        popupWin.onabort = function (event) {
+        popupWin.onabort = function () {
           popupWin.close();
         };
       } 
       else { // Handle other browsers
-        var path = window.location.href + '/print';
-        var popupWin = window.open(path, '_blank', 'width=1000,height=600');
+        popupWin = window.open(printpath, '_blank', 'width=1000,height=600');
         popupWin.addEventListener('load', function(){
           popupWin.print();
           popupWin.onfocus = function(){

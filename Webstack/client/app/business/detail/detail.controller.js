@@ -13,20 +13,20 @@ angular.module('atTableApp')
       var data = [];
       for (var i=0; i<business.tables.length; ++i)
       {
-        if (i%2==0) {
+        if (i%2 === 0) {
           data.push([]);
         }
         data[data.length-1].push({id:business.tables[i]._id, name:business.tables[i].name});
       }
       return data;
-    };
+    }
     
     // Picture fetch event handler factory
-    function make_pictureFetchHandler(i) {
+    function makePictureFetchHandler(i) {
       return function (picture) {
         var raw = String.fromCharCode.apply(null, picture.data.data);
         var b64 = btoa(raw);
-        var dataURL = "data:image/jpeg;base64," + b64;
+        var dataURL = 'data:image/jpeg;base64,' + b64;
         $scope.business.menu[i].pictureData = dataURL;
       };
     }
@@ -39,7 +39,7 @@ angular.module('atTableApp')
         $scope.business.menu[i].pictureData = null;
         if ($scope.business.menu[i].picture) {
           $http.get('/api/business/menupic/' + $scope.business.menu[i].picture)
-            .success(make_pictureFetchHandler(i));
+            .success(makePictureFetchHandler(i));
         }
       }
      });

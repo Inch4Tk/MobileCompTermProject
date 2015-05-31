@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('atTableApp')
-  .controller('BusinessCtrl', function ($scope, $http, Auth, User) {
+  .controller('BusinessCtrl', function ($scope, $http, Auth) {
 
-    $scope.newBusinessName = "New Business";
+    $scope.newBusinessName = 'New Business';
     $scope.businesses = [];
     // Make http request to update businesses
 

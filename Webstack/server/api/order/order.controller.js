@@ -87,7 +87,7 @@ exports.create = function (req, res, next) {
           // Check if amount is bigger than 0 and 
           // name is the same as in menu, then add it to the ilist
           if (req.body.items[i].amount > 0 && 
-              req.body.items[i].name == b.menu[j].name)
+              req.body.items[i].name === b.menu[j].name)
           {
             ilist.push(
               {name: b.menu[j].name, 
@@ -98,7 +98,7 @@ exports.create = function (req, res, next) {
       }
       
       // Check if theres any items requests that match the menu
-      if (ilist.length == 0)
+      if (ilist.length === 0)
         return res.send(500, err);
         
       // Create a new order

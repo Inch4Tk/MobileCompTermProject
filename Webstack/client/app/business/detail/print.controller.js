@@ -12,13 +12,13 @@ angular.module('atTableApp')
       var data = [];
       for (var i=0; i<business.tables.length; ++i)
       {
-        if (i%2==0) {
+        if (i%2 === 0) {
           data.push([]);
         }
         data[data.length-1].push({id:business.tables[i]._id, name:business.tables[i].name});
       }
       return data;
-    };
+    }
     
     $http.get('/api/business/' + currentId).success(function(business) {
       $scope.business = business;

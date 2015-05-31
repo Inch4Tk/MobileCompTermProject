@@ -26,9 +26,10 @@ angular.module('atTableApp')
       var amt = 0;
       for (var i=0; i < $scope.orders.length; ++i){
         var order = $scope.orders[i];
-        if (order.table == table._id && order.status < 3) {
-          for (var j=0; j < order.items.length; ++j)
+        if (order.table === table._id && order.status < 3) {
+          for (var j=0; j < order.items.length; ++j) {
             amt += order.items[j].amount * order.items[j].price;
+          }
         }
       }
       return amt;
@@ -41,7 +42,7 @@ angular.module('atTableApp')
     
     // Increment an order status
     $scope.incStatus = function(order){
-      if (order.status < 2){
+      if (order.status < 2) {
         var newStatus = order.status + 1;
         $http.post('/api/order/' + order._id + '/status', {status: newStatus});
       }     
@@ -51,8 +52,7 @@ angular.module('atTableApp')
     $scope.payOrders = function(table){
       for (var i=0; i < $scope.orders.length; ++i){
         var order = $scope.orders[i];
-        if (order.table == table._id)
-        {
+        if (order.table === table._id) {
           var newStatus = 3;
           $http.post('/api/order/' + order._id + '/status', {status: newStatus});
         }

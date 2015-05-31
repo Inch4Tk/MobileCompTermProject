@@ -46,11 +46,14 @@ angular.module('atTableApp')
     };
 
     $scope.isShown = function(item) {
-      if(item.needAdmin && !$scope.isAdmin())
+      if(item.needAdmin && !$scope.isAdmin()) {
         return false;
-      if($scope.isLoggedIn())
+      }
+      if($scope.isLoggedIn()) {
         return item.showLogin;
-      else
+      }
+      else {
         return item.showLogout;
+      }
     };
   });
