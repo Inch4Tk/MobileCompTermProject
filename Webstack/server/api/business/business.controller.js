@@ -118,8 +118,12 @@ exports.getMenuPicture = function(req, res, next) {
   var pictureId = req.params.id
   // First resolve the table
   MenuItemPic.findById(pictureId, function(err, pic){
-    console.log();
     if(err) { return res.json(500); }
-    return res.json(200, {_id: pic._id, data: JSON.stringify(pic.data)});
+    // Convert picture buffer to data array to have unified serialization
+    var data = [];
+    for (var i=0; i<pic.data.length; ++i) {
+      data.push(pic.data[i]);
+    }
+    return res.json(200, {_id: pic._id, data: data});
   });
 };

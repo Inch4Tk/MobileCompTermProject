@@ -24,10 +24,9 @@ angular.module('atTableApp')
     // Picture fetch event handler factory
     function makePictureFetchHandler(i) {
       return function (picture) {
-        var raw = String.fromCharCode.apply(null, picture.data.data);
+        var raw = String.fromCharCode.apply(null, picture.data);
         var b64 = btoa(raw);
         var dataURL = 'data:image/jpeg;base64,' + b64;
-        console.log(dataURL);
         $scope.business.menu[i].pictureData = dataURL;
       };
     }
