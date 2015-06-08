@@ -132,7 +132,7 @@ public class MainActivity extends ActionBarActivity {
                             public void success(ApiPicture apiPicture, Response response) {
                                 // Convert picture to bitmap and store in shared storage
                                 if (apiPicture != null) {
-                                    List<Byte> buffer = apiPicture.getData().getData();
+                                    List<Byte> buffer = apiPicture.getData();
                                     byte[] byteArray = new byte[buffer.size()];
                                     int i = 0;
                                     for (Byte current : buffer) {

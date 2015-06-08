@@ -52,7 +52,7 @@ angular.module('atTableApp')
     // Add a menu item to the $scope.menu collection
     $scope.addMenuI = function() {
       var p = parseInt($scope.menuIPrice);
-      if (!p || $scope.menuIName === '') {
+      if (p === NaN || p < 0 || $scope.menuIName === '') {
         return;
       }
       $scope.menu.push({
@@ -99,7 +99,6 @@ angular.module('atTableApp')
         tables: $scope.tables,
         menu: $scope.menu
       };
-      console.log(newBusiness);
       $http.post('/api/business', newBusiness).success(function () {
         $location.path('/dashboard');
       });

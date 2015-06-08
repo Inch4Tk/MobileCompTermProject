@@ -1,12 +1,14 @@
 package kr.ac.kaist.mobile.attable.api;
 
 
+import java.util.List;
+
 public class ApiPicture {
 
     private String _id;
-    private ApiBuffer data;
+    private List<Byte> data;
 
-    public ApiBuffer getData() {
+    public List<Byte> getData() {
         return data;
     }
     public String get_id() {
