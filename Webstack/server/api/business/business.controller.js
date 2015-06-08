@@ -106,7 +106,7 @@ exports.getMenu = function(req, res, next) {
     Business.findById(table.owner, function(err, business){
       if(err) { return res.json(500); }
       // Return the menu
-      return res.json(201, business.menu);
+      return res.json(200, business.menu);
     });
   });
 };
@@ -118,7 +118,8 @@ exports.getMenuPicture = function(req, res, next) {
   var pictureId = req.params.id
   // First resolve the table
   MenuItemPic.findById(pictureId, function(err, pic){
+    console.log();
     if(err) { return res.json(500); }
-    return res.json(201, pic);
+    return res.json(200, {_id: pic._id, data: JSON.stringify(pic.data)});
   });
 };

@@ -27,6 +27,7 @@ angular.module('atTableApp')
         var raw = String.fromCharCode.apply(null, picture.data.data);
         var b64 = btoa(raw);
         var dataURL = 'data:image/jpeg;base64,' + b64;
+        console.log(dataURL);
         $scope.business.menu[i].pictureData = dataURL;
       };
     }
